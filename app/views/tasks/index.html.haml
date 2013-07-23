@@ -1,0 +1,42 @@
+%ol#tasks
+	- @tasks.each do |task|
+		%li
+			%ul.no-bullet
+				%script
+					= "$(document).ready(function () {"
+					= "add_marker(#{task.latitude}, #{task.longitude}, '#{task.title}')"
+					= "});"
+				%span.title= task.title
+				%span.description= task.description
+				%span.duedate= task.duedate
+				%span.is_complete= task.is_complete
+				%span.priority.name= task.priority.name
+				%span.address= task.address
+
+%div#map
+	%div#map_canvas
+
+%div.row
+	%div.small-3.columns
+		%div.controls
+			%div.new
+				= button_tag 'New Task', :id => 'new_task', :class => 'button radius success tiny'
+			%div.taskform.invisible
+				= form_tag do
+					= label_tag 'title'
+					= text_field_tag 'title'
+					= label_tag 'description'
+					= text_field_tag 'description'
+					= label_tag 'duedate'
+					= text_field_tag 'duedate'
+					= label_tag 'is_complete'
+					= check_box_tag 'is_complete'
+					= label_tag 'address'
+					= text_field_tag 'address'
+					= label_tag 'priority'
+					= select_tag 'priority_id', options_from_collection_for_select(@auth.priorities, 'id', 'name')
+					= hidden_field_tag 'task_id'
+					= link_to('Cancel', '#', :id => 'cancel_task', :class => 'button radius tiny alert')
+					= submit_tag 'Create Task', :id => 'create_task', :class => 'button radius tiny'
+					= submit_tag 'Edit Task', :id => 'update_task', :class => 'button radius success tiny'
+		%div.small-9.columns

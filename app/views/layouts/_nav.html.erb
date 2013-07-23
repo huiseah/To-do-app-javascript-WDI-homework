@@ -1,0 +1,24 @@
+<div class="row">
+  <div class="columns large-12">
+    <nav class="top-bar">
+      <ul class="title-area">
+        <li class="name"></li>
+      </ul>
+      <section class="top-bar-section">
+        <ul class="left">
+          <li><a href="/">Home</a></li>
+          <li><a href="/users/new">Create User</a></li>
+					<li><a href="/users">See All Users</a></li>
+					<% if @auth.present? %>
+            <li><a href="/priorities">Priorities</a></li>
+            <li><a href="/tasks">Tasks</a></li>
+          <% end %>
+
+        </ul>
+        <ul class="right">
+          <li><%= intellinav %></li>
+        </ul>
+      </section>
+    </nav>
+  </div>
+</div>

@@ -1,0 +1,9 @@
+%div.row
+  %div.columns.large-5
+    = form_tag '/login' do
+      = label_tag :email
+      = text_field_tag :email, nil, :autofocus => true
+      = label_tag :password
+      = password_field_tag :password
+      = submit_tag 'Login', :class => 'button radius'
+  %div.columns.large-7
