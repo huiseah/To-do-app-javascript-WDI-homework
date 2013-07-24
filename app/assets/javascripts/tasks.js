@@ -28,7 +28,7 @@ $(document).ready (function () {
 	};
 
 	var add_task_everywhere = function (task) {
-		task.title
+		//task.title
 		// This might be an update, so remove the old task if it's in the array.
 		tasks = _.reject(tasks, function (p) {
 		 return p.id === task.id;
@@ -41,6 +41,7 @@ $(document).ready (function () {
 		}).reverse();
 		// Redraw all the entries.
 		$('#tasks').empty();
+		debugger;
 		_.each(tasks, display_task);
 	};
 
@@ -60,7 +61,9 @@ $(document).ready (function () {
 		type: 'POST',
 		url: '/tasks',
 		data: {'authenticity_token': token, 'id': task_id, 'title': title, 'address': address, 'priority_id': priority_id, 'is_complete': is_complete, 'duedate': duedate, 'description': description}
-	}).done(add_task_everywhere);	
+	}).done(add_task_everywhere).error(function() {
+		alert('nay');
+	});	
 		return false;
 	};
 
@@ -92,17 +95,34 @@ $(document).ready (function () {
 		$('#create_task').hide();
 		$('#update_task').show();
 
-		var title = $(this).siblings('.title').text();
-		var description = $(this).siblings('.description').text();
-		var duedate = $(this).siblings('.duedate').text();
-		var is_complete = $(this).siblings('.is_complete').text();
-		var address = $(this).siblings('.address').text();
-		var priority_id = $(this).siblings('.priority_id').text();
-		var id = $(this).siblings('.task_id').text();
+		var title = $(this).find('.title').text();
+		var description = $(this).find('.description').text();
+		var duedate = $(this).find('.duedate').text();
+		var is_complete = $(this).find('.is_complete input').is(':checked');
+		var address = $(this).find('.address').text();
+		var priority_id = $(this).find('.priority_id').text();
+		var id = $(this).find('.task_id').text();
 
-		debugger;
+		
 		$('#title').val(title);
-	}
+		$('#description').val(description);
+		$('#duedate').val(duedate);
+		if (is_complete) {
+			$('#is_complete').attr('checked', true);
+		};
+		$('#address').val(address);
+		$('#priority_id').val(priority_id);
+	};
+
+
+	var new_task = function () {
+		if ($('.taskform').is(':hidden')) {
+			toggle_form();
+		};
+			$('#create_task').show();
+			$('#edit_task').hide();
+		
+	};
 
 
 	var toggle_form = function () {
@@ -111,9 +131,9 @@ $(document).ready (function () {
 	};
 
 
-	$('#new_task').click(toggle_form);
+	$('#new_task').click(new_task);
 	$('#create_task').click(create_task);
 	$('#cancel_task').click(toggle_form);
 	$('#update_task').click(update_task);
-	$('#tasks').on('click', '.no-bullet', edit_task);
+	$('#tasks').on('click', '.editme', edit_task);
 });

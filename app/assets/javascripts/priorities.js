@@ -98,6 +98,8 @@ $(document).ready(function () {
     $('#create_priority').hide();
     $('#update_priority').show();
 
+    $('#title').focus();
+
     var color = $(this).css('background-color');
     color = rgb2hex(color);
     var name = $(this).siblings('.name').text();
